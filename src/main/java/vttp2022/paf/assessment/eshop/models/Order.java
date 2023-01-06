@@ -3,6 +3,9 @@ package vttp2022.paf.assessment.eshop.models;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.UUID;
+
+import org.springframework.jdbc.support.rowset.SqlRowSet;
 
 // DO NOT CHANGE THIS CLASS
 public class Order {
@@ -44,6 +47,7 @@ public class Order {
 		customer.setEmail(email);
 		return customer;
 	}
+
 	public void setCustomer(Customer customer) {
 		name = customer.getName();
 		address = customer.getAddress();
@@ -53,5 +57,19 @@ public class Order {
 	public List<LineItem> getLineItems() { return this.lineItems; }
 	public void setLineItems(List<LineItem> lineItems) { this.lineItems = lineItems; }
 	public void addLineItem(LineItem lineItem) { this.lineItems.add(lineItem); }
+
+	public static Order create(SqlRowSet rs) {
+        Order o = new Order();
+		o.setOrderId(rs.getString("order_id"));
+        o.setDeliveryId(rs.getString("delivery_id"));
+        o.setName(rs.getString("name"));
+        o.setEmail(rs.getString("email"));
+		o.setAddress(rs.getString("address"));
+		o.setStatus(rs.getString("status"));
+		o.setOrderDate(rs.getDate("order_date"));
+
+        return o;
+    }
+
 }
 
